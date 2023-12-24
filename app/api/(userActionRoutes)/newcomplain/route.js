@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken";
 import Complain from "@/app/models/Complain";
 import User from "@/app/models/User";
 import { connect } from "@/app/dbconfig/dbconfig";
+import { sendMessage } from "@/app/helper/sendMesage";
 connect();
 export async function POST(req) {
   try {
@@ -34,6 +35,7 @@ export async function POST(req) {
     });
 
     const savedComplain = await newComplain.save();
+    await sendMessage(user.flatno, title, complain);
     return NextResponse.json(
       {
         message: "Complain Send To Maintenance Office",
